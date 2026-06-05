@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap");
+@import "lenis/dist/lenis.css";
 @import "tailwindcss";
 
 @theme {
@@ -36,7 +37,7 @@
 @layer base {
   html {
     min-height: 100%;
-    scroll-behavior: smooth;
+    scroll-padding-top: 4rem;
   }
 
   body {

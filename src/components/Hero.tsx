@@ -20,7 +20,7 @@ export const Hero = () => {
           </h2>
 
           <p className="max-w-xl text-base leading-relaxed text-gray-200/90 sm:text-lg">
-          I'm a Full Stack Developer with a passion for building scalable applications, intelligent systems, and seamless user experiences. With experience across frontend development, backend engineering, databases, cloud technologies, and AI integrations, I enjoy bringing innovative ideas to life. My work is driven by curiosity, continuous learning, and a commitment to writing clean, efficient, and maintainable code. I aspire to create technology that not only solves problems but also delivers meaningful value to people and businesses.
+          I&apos;m a Full Stack Developer with a passion for building scalable applications, intelligent systems, and seamless user experiences. With experience across frontend development, backend engineering, databases, cloud technologies, and AI integrations, I enjoy bringing innovative ideas to life. My work is driven by curiosity, continuous learning, and a commitment to writing clean, efficient, and maintainable code. I aspire to create technology that not only solves problems but also delivers meaningful value to people and businesses.
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
