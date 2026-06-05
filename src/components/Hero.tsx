@@ -60,15 +60,17 @@ export const Hero = () => {
         <div className="relative mx-auto w-full max-w-sm lg:mx-0 lg:ml-auto lg:max-w-md">
           <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-blue-900/30">
             <Image
-              src="/profile.JPG"
-              alt="Pankaj Parihar"
+              src="/profile-opt.jpg"
+              alt="Eisha Kanth"
               fill
+              sizes="(max-width: 1024px) 90vw, 448px"
+              quality={80}
               className="object-cover"
               priority
             />
           </div>
 
-          <div className="absolute -bottom-5 right-4 flex items-center gap-4 rounded-xl border border-white/10 bg-indigo-600/90 px-5 py-4 shadow-xl backdrop-blur-md sm:right-0 lg:-right-8">
+          <div className="absolute -bottom-5 right-4 flex items-center gap-4 rounded-xl border border-white/10 bg-indigo-600/95 px-5 py-4 shadow-xl sm:right-0 lg:-right-8">
             <div className="rounded-lg bg-orange-500/20 p-2">
               <FaTrophy className="text-orange-400" size={22} />
             </div>

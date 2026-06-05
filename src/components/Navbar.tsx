@@ -11,7 +11,7 @@ const navItems = [
 
 export const Navbar = () => {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/0 bg-transparent backdrop-blur-sm transition-[border-color,background-color] duration-300 hover:border-white/5 hover:bg-black/10">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/0 bg-black/20 transition-[border-color,background-color] duration-300 hover:border-white/5 hover:bg-black/30">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 sm:px-8 lg:px-12">
         <Link
           href="/"

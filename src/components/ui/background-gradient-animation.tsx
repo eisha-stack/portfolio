@@ -1,6 +1,7 @@
 "use client";
+
 import { cn } from "@/utils/cn";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export const BackgroundGradientAnimation = ({
   gradientBackgroundStart = "rgb(108, 0, 162)",
@@ -15,7 +16,7 @@ export const BackgroundGradientAnimation = ({
   blendingValue = "hard-light",
   children,
   className,
-  interactive = true,
+  interactive = false,
   containerClassName,
 }: {
   gradientBackgroundStart?: string;
@@ -34,28 +35,24 @@ export const BackgroundGradientAnimation = ({
   containerClassName?: string;
 }) => {
   const interactiveRef = useRef<HTMLDivElement>(null);
+  const curX = useRef(0);
+  const curY = useRef(0);
+  const tgX = useRef(0);
+  const tgY = useRef(0);
+  const rafId = useRef<number | null>(null);
 
-  const [curX, setCurX] = useState(0);
-  const [curY, setCurY] = useState(0);
-  const [tgX, setTgX] = useState(0);
-  const [tgY, setTgY] = useState(0);
   useEffect(() => {
-    document.body.style.setProperty(
-      "--gradient-background-start",
-      gradientBackgroundStart
-    );
-    document.body.style.setProperty(
-      "--gradient-background-end",
-      gradientBackgroundEnd
-    );
-    document.body.style.setProperty("--first-color", firstColor);
-    document.body.style.setProperty("--second-color", secondColor);
-    document.body.style.setProperty("--third-color", thirdColor);
-    document.body.style.setProperty("--fourth-color", fourthColor);
-    document.body.style.setProperty("--fifth-color", fifthColor);
-    document.body.style.setProperty("--pointer-color", pointerColor);
-    document.body.style.setProperty("--size", size);
-    document.body.style.setProperty("--blending-value", blendingValue);
+    const root = document.documentElement;
+    root.style.setProperty("--gradient-background-start", gradientBackgroundStart);
+    root.style.setProperty("--gradient-background-end", gradientBackgroundEnd);
+    root.style.setProperty("--first-color", firstColor);
+    root.style.setProperty("--second-color", secondColor);
+    root.style.setProperty("--third-color", thirdColor);
+    root.style.setProperty("--fourth-color", fourthColor);
+    root.style.setProperty("--fifth-color", fifthColor);
+    root.style.setProperty("--pointer-color", pointerColor);
+    root.style.setProperty("--size", size);
+    root.style.setProperty("--blending-value", blendingValue);
   }, [
     blendingValue,
     fifthColor,
@@ -70,31 +67,60 @@ export const BackgroundGradientAnimation = ({
   ]);
 
   useEffect(() => {
-    function move() {
-      if (!interactiveRef.current) {
-        return;
+    if (!interactive) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    const prefersCoarsePointer = window.matchMedia(
+      "(pointer: coarse)"
+    ).matches;
+
+    if (prefersReducedMotion || prefersCoarsePointer) return;
+
+    const animate = () => {
+      if (!interactiveRef.current) return;
+
+      curX.current += (tgX.current - curX.current) / 20;
+      curY.current += (tgY.current - curY.current) / 20;
+      interactiveRef.current.style.transform = `translate3d(${Math.round(curX.current)}px, ${Math.round(curY.current)}px, 0)`;
+
+      const isMoving =
+        Math.abs(tgX.current - curX.current) > 0.5 ||
+        Math.abs(tgY.current - curY.current) > 0.5;
+
+      if (isMoving) {
+        rafId.current = requestAnimationFrame(animate);
+      } else {
+        rafId.current = null;
       }
-      setCurX(curX + (tgX - curX) / 20);
-      setCurY(curY + (tgY - curY) / 20);
-      interactiveRef.current.style.transform = `translate(${Math.round(
-        curX
-      )}px, ${Math.round(curY)}px)`;
-    }
+    };
 
-    move();
-  }, [tgX, tgY, curX, curY]);
-
-  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (interactiveRef.current) {
+    const handleMouseMove = (event: MouseEvent) => {
+      if (!interactiveRef.current) return;
       const rect = interactiveRef.current.getBoundingClientRect();
-      setTgX(event.clientX - rect.left);
-      setTgY(event.clientY - rect.top);
-    }
-  };
+      tgX.current = event.clientX - rect.left;
+      tgY.current = event.clientY - rect.top;
+      if (rafId.current === null) {
+        rafId.current = requestAnimationFrame(animate);
+      }
+    };
 
-  const isSafari =
-    typeof navigator !== "undefined" &&
-    /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (rafId.current !== null) {
+        cancelAnimationFrame(rafId.current);
+      }
+    };
+  }, [interactive]);
+
+  const blobClass = cn(
+    "absolute [background:radial-gradient(circle_at_center,_rgba(var(--color),_0.8)_0,_rgba(var(--color),_0)_50%)_no-repeat]",
+    "[mix-blend-mode:var(--blending-value)] w-[var(--size)] h-[var(--size)] top-[calc(50%-var(--size)/2)] left-[calc(50%-var(--size)/2)]",
+    "will-change-transform motion-reduce:animate-none"
+  );
 
   return (
     <div
@@ -103,88 +129,48 @@ export const BackgroundGradientAnimation = ({
         containerClassName
       )}
     >
-      <svg className="hidden">
-        <defs>
-          <filter id="blurMe">
-            <feGaussianBlur
-              in="SourceGraphic"
-              stdDeviation="10"
-              result="blur"
-            />
-            <feColorMatrix
-              in="blur"
-              mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8"
-              result="goo"
-            />
-            <feBlend in="SourceGraphic" in2="goo" />
-          </filter>
-        </defs>
-      </svg>
       <div
-        className={cn(
-          "gradients-container pointer-events-none absolute inset-0 blur-lg",
-          isSafari ? "blur-2xl" : "[filter:url(#blurMe)_blur(40px)]"
-        )}
+        aria-hidden
+        className="pointer-events-none absolute inset-0 isolate contain-strict blur-2xl motion-reduce:blur-none"
       >
         <div
-          className={cn(
-            `absolute [background:radial-gradient(circle_at_center,_var(--first-color)_0,_var(--first-color)_50%)_no-repeat]`,
-            `[mix-blend-mode:var(--blending-value)] w-[var(--size)] h-[var(--size)] top-[calc(50%-var(--size)/2)] left-[calc(50%-var(--size)/2)]`,
-            `[transform-origin:center_center]`,
-            `animate-first`,
-            `opacity-100`
-          )}
-        ></div>
+          style={{ "--color": "var(--first-color)" } as React.CSSProperties}
+          className={cn(blobClass, "[transform-origin:center_center] animate-first opacity-100")}
+        />
         <div
-          className={cn(
-            `absolute [background:radial-gradient(circle_at_center,_rgba(var(--second-color),_0.8)_0,_rgba(var(--second-color),_0)_50%)_no-repeat]`,
-            `[mix-blend-mode:var(--blending-value)] w-[var(--size)] h-[var(--size)] top-[calc(50%-var(--size)/2)] left-[calc(50%-var(--size)/2)]`,
-            `[transform-origin:calc(50%-400px)]`,
-            `animate-second`,
-            `opacity-100`
-          )}
-        ></div>
+          style={{ "--color": "var(--second-color)" } as React.CSSProperties}
+          className={cn(blobClass, "[transform-origin:calc(50%-400px)] animate-second opacity-100")}
+        />
         <div
-          className={cn(
-            `absolute [background:radial-gradient(circle_at_center,_rgba(var(--third-color),_0.8)_0,_rgba(var(--third-color),_0)_50%)_no-repeat]`,
-            `[mix-blend-mode:var(--blending-value)] w-[var(--size)] h-[var(--size)] top-[calc(50%-var(--size)/2)] left-[calc(50%-var(--size)/2)]`,
-            `[transform-origin:calc(50%+400px)]`,
-            `animate-third`,
-            `opacity-100`
-          )}
-        ></div>
+          style={{ "--color": "var(--third-color)" } as React.CSSProperties}
+          className={cn(blobClass, "[transform-origin:calc(50%+400px)] animate-third opacity-100")}
+        />
         <div
+          style={{ "--color": "var(--fourth-color)" } as React.CSSProperties}
           className={cn(
-            `absolute [background:radial-gradient(circle_at_center,_rgba(var(--fourth-color),_0.8)_0,_rgba(var(--fourth-color),_0)_50%)_no-repeat]`,
-            `[mix-blend-mode:var(--blending-value)] w-[var(--size)] h-[var(--size)] top-[calc(50%-var(--size)/2)] left-[calc(50%-var(--size)/2)]`,
-            `[transform-origin:calc(50%-200px)]`,
-            `animate-fourth`,
-            `opacity-70`
+            blobClass,
+            "hidden [transform-origin:calc(50%-200px)] animate-fourth opacity-70 md:block"
           )}
-        ></div>
+        />
         <div
+          style={{ "--color": "var(--fifth-color)" } as React.CSSProperties}
           className={cn(
-            `absolute [background:radial-gradient(circle_at_center,_rgba(var(--fifth-color),_0.8)_0,_rgba(var(--fifth-color),_0)_50%)_no-repeat]`,
-            `[mix-blend-mode:var(--blending-value)] w-[var(--size)] h-[var(--size)] top-[calc(50%-var(--size)/2)] left-[calc(50%-var(--size)/2)]`,
-            `[transform-origin:calc(50%-800px)_calc(50%+800px)]`,
-            `animate-fifth`,
-            `opacity-100`
+            blobClass,
+            "hidden [transform-origin:calc(50%-800px)_calc(50%+800px)] animate-fifth opacity-100 lg:block"
           )}
-        ></div>
+        />
 
         {interactive && (
           <div
             ref={interactiveRef}
-            onMouseMove={handleMouseMove}
             className={cn(
-              `absolute [background:radial-gradient(circle_at_center,_rgba(var(--pointer-color),_0.8)_0,_rgba(var(--pointer-color),_0)_50%)_no-repeat]`,
-              `[mix-blend-mode:var(--blending-value)] w-full h-full -top-1/2 -left-1/2`,
-              `opacity-70`
+              "absolute [background:radial-gradient(circle_at_center,_rgba(var(--pointer-color),_0.8)_0,_rgba(var(--pointer-color),_0)_50%)_no-repeat]",
+              "[mix-blend-mode:var(--blending-value)] h-full w-full -left-1/2 -top-1/2 opacity-70 will-change-transform"
             )}
-          ></div>
+          />
         )}
       </div>
+
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.35)_100%)]"

@@ -26,12 +26,13 @@ function ProjectCard({
 }) {
   if (featured) {
     return (
-      <article className="group relative flex min-h-[360px] flex-col justify-end overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-lg shadow-black/20 backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:shadow-blue-900/20 lg:min-h-full">
+      <article className="group relative flex min-h-[360px] flex-col justify-end overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-lg shadow-black/20 transition-[transform,border-color,box-shadow] duration-300 hover:border-white/20 hover:shadow-blue-900/20 lg:min-h-full">
         <Image
           src={image}
           alt={`${title} preview`}
           fill
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10" />
 
@@ -65,12 +66,13 @@ function ProjectCard({
   }
 
   return (
-    <article className="group flex min-h-[280px] flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-lg shadow-black/20 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.08] hover:shadow-blue-900/20">
+    <article className="group flex min-h-[280px] flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-lg shadow-black/20 transition-[transform,border-color,background-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.08] hover:shadow-blue-900/20">
       <div className="relative h-36 shrink-0 overflow-hidden sm:h-40">
         <Image
           src={image}
           alt={`${title} preview`}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
@@ -107,7 +109,7 @@ function ProjectCard({
 
 export const Projects = () => {
   return (
-    <section id="projects" className="px-6 py-24 sm:px-8 lg:px-12">
+    <section id="projects" className="px-6 py-24 sm:px-8 lg:px-12 [content-visibility:auto]">
       <div className="mx-auto max-w-7xl">
         <div className="mb-14 flex flex-col gap-4">
           <p className="text-sm font-medium tracking-widest text-blue-400 uppercase">
