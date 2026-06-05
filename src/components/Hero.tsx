@@ -60,7 +60,7 @@ export const Hero = () => {
         <div className="relative mx-auto w-full max-w-sm lg:mx-0 lg:ml-auto lg:max-w-md">
           <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-blue-900/30">
             <Image
-              src="/profile-opt.jpg"
+              src="/profile.JPG"
               alt="Eisha Kanth"
               fill
               sizes="(max-width: 1024px) 90vw, 448px"
