@@ -3,7 +3,7 @@ import Link from "next/link";
 import { FaGithub, FaLinkedin, FaTrophy } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { HeroBackground } from "@/components/HeroBackground";
-import { socialLinks } from "@/data/contact";
+import { contactInfo, socialLinks } from "@/data/contact";
 
 const socialIcons = {
   GitHub: FaGithub,
@@ -40,13 +40,13 @@ export const Hero = () => {
             >
               Get In Touch
             </Link>
-            <button
-              type="button"
-              disabled
-              className="rounded-lg border border-white/20 px-8 py-3 font-medium text-gray-200 transition-colors hover:border-white/40 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+            <a
+              href={contactInfo.resumeUrl}
+              download="Eisha-Kanth-Resume.pdf"
+              className="rounded-lg border border-white/20 px-8 py-3 font-medium text-gray-200 transition-colors hover:border-white/40 hover:text-white"
             >
               Download Resume
-            </button>
+            </a>
           </div>
 
           <div className="flex items-center gap-5 pt-2 text-gray-400">

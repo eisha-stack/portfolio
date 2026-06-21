@@ -120,19 +120,14 @@ export const Contact = () => {
               <p className="mb-4 text-sm text-gray-400">
                 Download my resume to learn more about my experience and skills.
               </p>
-              <button
-                type="button"
-                disabled={!contactInfo.resumeAvailable}
-                className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
+              <a
+                href={contactInfo.resumeUrl}
+                download="Eisha-Kanth-Resume.pdf"
+                className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-500"
               >
                 <FaDownload size={14} />
                 Download Resume
-              </button>
-              {!contactInfo.resumeAvailable && (
-                <p className="mt-3 text-xs text-gray-500">
-                  Resume will be available here soon.
-                </p>
-              )}
+              </a>
             </div>
           </div>
         </div>
