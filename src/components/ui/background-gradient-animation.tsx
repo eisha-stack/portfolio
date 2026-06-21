@@ -175,9 +175,7 @@ export const BackgroundGradientAnimation = ({
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.35)_100%)]"
       />
-      <div className={cn("relative z-10 flex min-h-dvh flex-col", className)}>
-        {children}
-      </div>
+      <div className={cn("relative z-10 min-h-dvh", className)}>{children}</div>
     </div>
   );
 };

@@ -30,8 +30,32 @@
 }
 
 :root {
-  --background: #0a0a0f;
-  --foreground: #ffffff;
+  --background: hsl(222, 84%, 5%);
+  --foreground: hsl(210, 40%, 98%);
+  --secondary: hsl(217, 32%, 17%);
+  --primary: hsl(217, 91%, 60%);
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes floatCode {
+  0% { transform: translateY(100vh) translateX(-50px) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.6; }
+  50% { opacity: 0.8; transform: translateY(50vh) translateX(20px) rotate(180deg); }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(-10vh) translateX(50px) rotate(360deg); opacity: 0; }
+}
+
+@keyframes floatShape {
+  0% { transform: translateY(100vh) scale(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.5; transform: translateY(90vh) scale(1) rotate(45deg); }
+  50% { opacity: 0.8; transform: translateY(50vh) scale(1.2) rotate(180deg); }
+  90% { opacity: 0.3; transform: translateY(10vh) scale(0.8) rotate(315deg); }
+  100% { transform: translateY(-10vh) scale(0) rotate(360deg); opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -64,5 +88,70 @@
   a {
     color: inherit;
     text-decoration: none;
+  }
+}
+
+.site-grid {
+  background-image:
+    linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.hero-animated-bg {
+  background: linear-gradient(
+    -45deg,
+    rgb(10, 10, 15),
+    rgb(26, 26, 46),
+    rgb(22, 33, 62),
+    rgb(15, 52, 96)
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+.floating-code {
+  position: absolute;
+  color: rgb(60, 131, 246);
+  font-family: "Courier New", Courier, monospace;
+  font-weight: 500;
+  pointer-events: none;
+  z-index: 1;
+  animation: floatCode 15s linear infinite;
+}
+
+.floating-shape {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  animation: floatShape 12s linear infinite;
+}
+
+.section-surface-a {
+  background-color: hsl(217 32% 17% / 0.2);
+}
+
+.section-surface-b {
+  background-color: hsl(217 32% 17% / 0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-animated-bg {
+    animation: none;
+    background: linear-gradient(to bottom right, rgb(10, 10, 15), rgb(15, 52, 96));
+    background-size: 100% 100%;
+  }
+
+  .floating-code,
+  .floating-shape {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-animated-bg {
+    background: linear-gradient(to bottom right, rgb(10, 10, 15), rgb(15, 52, 96));
+    background-size: 100% 100%;
+    animation: none;
   }
 }

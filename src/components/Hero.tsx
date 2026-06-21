@@ -1,10 +1,12 @@
 import Image from "next/image";
 import React from "react";
 import { FaGithub, FaLinkedin, FaYoutube, FaTrophy } from "react-icons/fa";
+import { HeroBackground } from "@/components/HeroBackground";
 
 export const Hero = () => {
   return (
-    <section className="flex flex-1 items-center px-6 pb-16 pt-24 sm:px-8 lg:px-12">
+    <HeroBackground>
+    <div className="flex min-h-dvh items-center px-6 pb-16 pt-24 sm:px-8 lg:px-12">
       <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <div className="flex flex-col gap-6">
           <p className="text-sm font-medium tracking-widest text-blue-400 uppercase">
@@ -16,7 +18,7 @@ export const Hero = () => {
           </h1>
 
           <h2 className="max-w-xl text-lg text-gray-300 sm:text-xl lg:text-2xl">
-            Software Developer 
+            Software Developer
           </h2>
 
           <p className="max-w-xl text-base leading-relaxed text-gray-200/90 sm:text-lg">
@@ -83,6 +85,7 @@ export const Hero = () => {
           </div>
         </div>
       </div>
-    </section>
+    </div>
+    </HeroBackground>
   );
 };

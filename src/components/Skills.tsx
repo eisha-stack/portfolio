@@ -22,7 +22,7 @@ export const Skills = () => {
   return (
     <section
       id="skills"
-      className="px-6 py-24 sm:px-8 lg:px-12 [content-visibility:auto]"
+      className="section-surface-b relative px-6 py-24 sm:px-8 lg:px-12 [content-visibility:auto]"
     >
       <div className="mx-auto max-w-5xl">
         <div className="mb-16 flex flex-col items-center gap-4 text-center">
