@@ -2,7 +2,8 @@ export const contactInfo = {
   email: "eishakanth.1310@gmail.com",
   phone: "+91 9585353280",
   location: "Bengaluru, IND",
-  resumeUrl: "/eisha-kanth.pdf",
+  resumeUrl: "/api/resume",
+  resumeFileName: "Eisha-Kanth-Resume.pdf",
   resumeAvailable: true,
 };
 

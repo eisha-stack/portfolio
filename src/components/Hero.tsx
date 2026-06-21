@@ -42,7 +42,7 @@ export const Hero = () => {
             </Link>
             <a
               href={contactInfo.resumeUrl}
-              download="Eisha-Kanth-Resume.pdf"
+              download={contactInfo.resumeFileName}
               className="rounded-lg border border-white/20 px-8 py-3 font-medium text-gray-200 transition-colors hover:border-white/40 hover:text-white"
             >
               Download Resume

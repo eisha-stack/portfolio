@@ -122,7 +122,7 @@ export const Contact = () => {
               </p>
               <a
                 href={contactInfo.resumeUrl}
-                download="Eisha-Kanth-Resume.pdf"
+                download={contactInfo.resumeFileName}
                 className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-500"
               >
                 <FaDownload size={14} />
