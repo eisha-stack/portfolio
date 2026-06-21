@@ -1,7 +1,15 @@
 import Image from "next/image";
-import React from "react";
-import { FaGithub, FaLinkedin, FaYoutube, FaTrophy } from "react-icons/fa";
+import Link from "next/link";
+import { FaGithub, FaLinkedin, FaTrophy } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { HeroBackground } from "@/components/HeroBackground";
+import { socialLinks } from "@/data/contact";
+
+const socialIcons = {
+  GitHub: FaGithub,
+  LinkedIn: FaLinkedin,
+  X: FaXTwitter,
+};
 
 export const Hero = () => {
   return (
@@ -26,36 +34,37 @@ export const Hero = () => {
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
-            <button className="rounded-lg bg-blue-600 px-8 py-3 font-medium text-white transition-colors hover:bg-blue-500">
+            <Link
+              href="#contact"
+              className="rounded-lg bg-blue-600 px-8 py-3 font-medium text-white transition-colors hover:bg-blue-500"
+            >
               Get In Touch
-            </button>
-            <button className="rounded-lg border border-white/20 px-8 py-3 font-medium text-gray-200 transition-colors hover:border-white/40 hover:text-white">
+            </Link>
+            <button
+              type="button"
+              disabled
+              className="rounded-lg border border-white/20 px-8 py-3 font-medium text-gray-200 transition-colors hover:border-white/40 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+            >
               Download Resume
             </button>
           </div>
 
           <div className="flex items-center gap-5 pt-2 text-gray-400">
-            <a
-              href="#"
-              aria-label="GitHub"
-              className="transition-colors hover:text-white"
-            >
-              <FaGithub size={22} />
-            </a>
-            <a
-              href="#"
-              aria-label="LinkedIn"
-              className="transition-colors hover:text-white"
-            >
-              <FaLinkedin size={22} />
-            </a>
-            <a
-              href="#"
-              aria-label="YouTube"
-              className="transition-colors hover:text-white"
-            >
-              <FaYoutube size={22} />
-            </a>
+            {socialLinks.map((social) => {
+              const Icon = socialIcons[social.name as keyof typeof socialIcons];
+              return (
+                <a
+                  key={social.name}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  className="transition-colors hover:text-white"
+                >
+                  <Icon size={22} />
+                </a>
+              );
+            })}
           </div>
         </div>
 
